@@ -1,0 +1,114 @@
+---
+title: "Exercise 8"
+subtitle: "Data analysis in **R**"
+author: "Statistical Consulting Centre"
+date: |
+  | `r readLines('../../../metadata.txt')[2]`
+  |
+  | <img src="../../../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#R: ")
+
+gw = getwd()
+setwd("../../../")
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+mean.df = read.csv("Data/sports questionnaire.csv")
+source("Source/ex_3.R")
+setwd(gw)
+library(dplyr)
+library(ggplot2)
+```
+
+For these exercises we will be using the `sports.df` data set again. Run the following lines to ensure you're up to date from the previous exercises:
+
+```{r, echo = TRUE, eval = FALSE}
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+mean.df = read.csv("Data/sports questionnaire.csv")
+source("Source/ex_3.R")
+library(ggplot2)
+```
+
+
+# 1. Linear regression
+
+We will use the `sports.df` data set to conduct a simple linear regression to answer the 
+following research question:
+
+> "Is the subject's age associated with their average score?"
+
+Note that in this scenario, we have one continuous response variable (`average`), and one continuous explanatory variable (`age`). Note that response variables should always be plotted on the y-axis, and the explanatory variable on the x-axis.
+
+1. Plot the data using a scatter plot in base **R**. Are there any outliers?
+
+```{r}
+plot(average ~ age, sports.df)
+```
+
+2. Create the same scatter plot using `ggplot` and add the linear regression line. Are you expecting a significant result?
+
+```{r}
+ggplot(sports.df, aes(age, average)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+3. Conduct a simple linear regression and interpret the results. Include the confidence intervals of the coefficients using `confint()` function.
+
+```{r}
+average_lm = lm(average ~ age, data = sports.df)
+summary(average_lm)
+confint(average_lm)
+
+# We have no evidence to suggest that the age of the subject has no
+# influences their average score (p-value = 0.771).
+
+```
+
+# 2. Logistic regression
+
+We will use the `sports.df` data set to conduct a simple logistic regression to answer the following research question:
+
+> "Does the age influence the odds of living with a partner?"
+
+Note that in this scenario, we will have one binary response variable (`partner = "Yes"`), and one (categorical) explanatory variable (`age`).
+
+1. Create the response variable, named `partner_Yes`, and assign it within the `sports.df` data set.
+
+```{r}
+sports.df$partner_Yes = sports.df$partner == "Yes"
+```
+
+2. Fit the logistic regression model and interpret the output.
+
+```{r}
+partner_glm = glm(partner_Yes ~ age, data = sports.df, family = binomial)
+summary(partner_glm)
+
+# We have no evidence to suggest that the age has influence on 
+# the odds of living with a partner (p-value = 0.1574).
+```
+
+We will use the `sports.df` data set again to conduct another simple logistic regression to answer the following research question:
+
+> "Does the age group influence the odds of living with a partner?"
+
+Note that in this scenario, we will have one binary response variable (`partner = "Yes"`), and one (categorical) explanatory variable (`age_group`).
+
+3. Create the relevant frequency table. Do you expect a significant result?
+
+```{r}
+with(sports.df, table(partner_Yes, age_group))
+```
+
+4. Fit the logistic regression model and then use `anova(partner_glm, test="Chisq")` to test if `age_group` variable is a significant predictor.
+
+```{r}
+partner_glm = glm(partner_Yes ~ age_group, data = sports.df, family = binomial)
+anova(partner_glm, test="Chisq")
+
+# The result shows that age_group variable is not significant 
+# predictor in predicting the odds of living with a partner 
+```

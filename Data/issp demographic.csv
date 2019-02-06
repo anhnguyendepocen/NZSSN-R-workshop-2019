@@ -1,0 +1,201 @@
+id,gender,age,marital_status,education,working_hours_per_week,income,ethnicity
+1900073,Female,56,"marr,liv as mar",Secondary compl,NAV;NAP,$10000 or less,European/Pakeha
+1900013,Male,45,divorced,University degree,50,$40001-$50000,European/Pakeha
+1900025,Female,38,"marr,liv as mar","Incpl university,other",NAV;NAP,$15001-$20000,European/Pakeha
+1900037,Female,33,"single,nev marr","Incpl university,other",NAV;NAP,$10001-$15000,European/Pakeha
+1900043,Female,37,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900061,Male,27,"single,nev marr","Incpl university,other",35,$20001-$25000,European/Pakeha
+1900079,Female,43,"single,nev marr","Incpl university,other",55,$40001-$50000,European/Pakeha
+1900085,Male,24,"marr,liv as mar","Incpl university,other",NAV;NAP,$20001-$25000,European/Pakeha
+1900097,"NA, refused",NA,"NA, refused",NA,NAV;NAP,NAV; NAP No own income,NAV
+1900115,Male,22,"single,nev marr","Incpl university,other",40,$20001-$25000,European/Pakeha
+1900121,Female,64,"marr,liv as mar",Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1900127,Female,62,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900139,Female,76,"marr,liv as mar",University degree,NAV;NAP,NAV; NAP No own income,Other
+1900145,Female,68,"marr,liv as mar","Incpl university,other",NAV;NAP,$15001-$20000,European/Pakeha
+1900151,Female,63,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900157,Male,58,"marr,liv as mar","Incpl university,other",45,$30001-$40000,European/Pakeha
+1900163,Female,23,"marr,liv as mar",Incpl secondary,56,$25001-$30000,European/Pakeha
+1900175,Female,44,"marr,liv as mar",Secondary compl,37,$20001-$25000,European/Pakeha
+1900181,Male,23,"single,nev marr",Secondary compl,NAV;NAP,NAV; NAP No own income,European/Pakeha
+1900187,Female,41,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900199,Female,29,"marr,liv as mar",Incpl secondary,37,$30001-$40000,European/Pakeha
+1900205,Male,62,"marr,liv as mar","Incpl university,other",60,NAV; NAP No own income,European/Pakeha
+1900211,Female,33,separated,Secondary compl,NAV;NAP,$10001-$15000,European/Pakeha
+1900217,Female,61,"marr,liv as mar",Primary compl,NAV;NAP,$10000 or less,European/Pakeha
+1900223,Female,32,"single,nev marr",Incpl secondary,NAV;NAP,$25001-$30000,European/Pakeha
+1900235,Female,31,"marr,liv as mar",University degree,40,$40001-$50000,European/Pakeha
+1900241,Female,29,"marr,liv as mar",Incpl secondary,NAV;NAP,NAV; NAP No own income,European/Pakeha
+1900259,Female,35,"marr,liv as mar","Incpl university,other",20,$10000 or less,European/Pakeha
+1900265,Male,83,"single,nev marr",University degree,NAV;NAP,$25001-$30000,European/Pakeha
+1900277,Male,50,"marr,liv as mar",Incpl secondary,55,$20001-$25000,European/Pakeha
+1900283,"NA, refused",NA,"NA, refused",NA,40,$25001-$30000,European/Pakeha
+1900295,Male,48,"marr,liv as mar","Incpl university,other",60,$40001-$50000,European/Pakeha
+1900307,Female,69,widowed,Primary compl,NAV;NAP,$10001-$15000,European/Pakeha
+1900313,Female,NA,"marr,liv as mar","Incpl university,other",22,$15001-$20000,European/Pakeha
+1900319,Male,46,"marr,liv as mar","Incpl university,other",45,$70001-$100000,European/Pakeha
+1900325,Female,46,"marr,liv as mar",Secondary compl,60,$10000 or less,European/Pakeha
+1900331,Male,44,"marr,liv as mar",University degree,60,NAV; NAP No own income,Chinese
+1900337,Female,36,"marr,liv as mar",Secondary compl,16,$10000 or less,European/Pakeha
+1900343,Male,32,"marr,liv as mar","Incpl university,other",NAV;NAP,$25001-$30000,Other
+1900349,Female,90,"marr,liv as mar",Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1900355,Female,54,widowed,Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900367,Female,56,"marr,liv as mar",Incpl secondary,40,$15001-$20000,European/Pakeha
+1900373,Female,50,"marr,liv as mar","Incpl university,other",35,$20001-$25000,European/Pakeha
+1900379,Male,74,"marr,liv as mar",Primary compl,NAV;NAP,$25001-$30000,European/Pakeha
+1900385,Male,42,"marr,liv as mar",Incpl secondary,50,$70001-$100000,European/Pakeha
+1900409,Female,31,"marr,liv as mar","Incpl university,other",NAV;NAP,$20001-$25000,Other
+1900415,Female,51,"marr,liv as mar","Incpl university,other",16,$10000 or less,European/Pakeha
+1900421,Male,35,"marr,liv as mar",University degree,40,$40001-$50000,European/Pakeha
+1900433,"NA, refused",NA,"NA, refused",NA,NAV;NAP,$10000 or less,European/Pakeha
+1900451,Male,52,"single,nev marr",Primary compl,80,$10000 or less,European/Pakeha
+1900457,Female,75,widowed,Secondary compl,NAV;NAP,$15001-$20000,European/Pakeha
+1900463,Male,74,"marr,liv as mar",Secondary compl,NAV;NAP,$15001-$20000,European/Pakeha
+1900469,Female,62,widowed,"Incpl university,other",10,$30001-$40000,European/Pakeha
+1900475,Male,42,"marr,liv as mar","Incpl university,other",45,$30001-$40000,Other
+1900481,Male,48,"marr,liv as mar",Incpl secondary,60,$30001-$40000,European/Pakeha
+1900487,Female,63,"marr,liv as mar",Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1900493,Female,51,"marr,liv as mar",Incpl secondary,NAV;NAP,$30001-$40000,European/Pakeha
+1900505,Male,35,"marr,liv as mar",University degree,45,$50001-$70000,European/Pakeha
+1900511,Female,23,"marr,liv as mar",Secondary compl,40,$20001-$25000,Other
+1900523,Male,72,"marr,liv as mar",NA,7,$10001-$15000,European/Pakeha
+1900529,Female,54,"marr,liv as mar","Incpl university,other",40,$30001-$40000,European/Pakeha
+1900547,Male,42,"marr,liv as mar",Secondary compl,65,$25001-$30000,European/Pakeha
+1900553,Female,56,"marr,liv as mar",Incpl secondary,NAV;NAP,$25001-$30000,European/Pakeha
+1900559,Female,66,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900565,Female,62,"marr,liv as mar",Secondary compl,20,$10000 or less,European/Pakeha
+1900577,Female,49,"marr,liv as mar",Secondary compl,30,$10001-$15000,European/Pakeha
+1900583,Female,48,"marr,liv as mar","Incpl university,other",50,$40001-$50000,European/Pakeha
+1900589,Male,37,"marr,liv as mar",Incpl secondary,70,$30001-$40000,European/Pakeha
+1900601,Male,53,"marr,liv as mar",Incpl secondary,48,$50001-$70000,European/Pakeha
+1900607,Female,35,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900613,Male,41,"marr,liv as mar","Incpl university,other",40,$70001-$100000,European/Pakeha
+1900614,"NA, refused",NA,"NA, refused",NA,50,$70001-$100000,European/Pakeha
+1900619,Female,43,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900631,Female,28,"marr,liv as mar",University degree,30,$20001-$25000,European/Pakeha
+1900637,Female,25,"marr,liv as mar","Incpl university,other",40,$25001-$30000,Other
+1900661,Male,36,"marr,liv as mar","Incpl university,other",50,$30001-$40000,New Zealand Maori
+1900667,Female,35,"marr,liv as mar",Secondary compl,NAV;NAP,NAV; NAP No own income,European/Pakeha
+1900697,Male,46,divorced,"Incpl university,other",45,$25001-$30000,European/Pakeha
+1900709,"NA, refused",NA,"NA, refused",NA,NAV;NAP,$10001-$15000,Other
+1900715,Male,47,"marr,liv as mar","Incpl university,other",35,$40001-$50000,European/Pakeha
+1900721,Female,31,"marr,liv as mar",Secondary compl,25,$20001-$25000,European/Pakeha
+1900727,Female,47,"marr,liv as mar",Incpl secondary,28,$15001-$20000,European/Pakeha
+1900751,Male,64,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1900769,Female,79,widowed,Secondary compl,NAV;NAP,$10001-$15000,European/Pakeha
+1900775,Female,19,"single,nev marr","Incpl university,other",40,$15001-$20000,European/Pakeha
+1900781,Male,21,"single,nev marr","Incpl university,other",40,$20001-$25000,European/Pakeha
+1900793,Male,31,"marr,liv as mar",University degree,45,$40001-$50000,Other
+1900799,Female,28,"marr,liv as mar","Incpl university,other",20,$20001-$25000,European/Pakeha
+1900805,Male,28,"marr,liv as mar",University degree,45,$30001-$40000,European/Pakeha
+1900806,Female,22,"single,nev marr",Incpl secondary,5,$10000 or less,European/Pakeha
+1900811,Female,44,widowed,"Incpl university,other",27,$15001-$20000,European/Pakeha
+1900823,Male,23,"marr,liv as mar",Incpl secondary,48,$30001-$40000,European/Pakeha
+1900829,Male,33,"single,nev marr",Secondary compl,45,$40001-$50000,European/Pakeha
+1900853,Female,25,"single,nev marr",University degree,19,$10001-$15000,European/Pakeha
+1900865,Female,40,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1900877,Female,45,"marr,liv as mar",Incpl secondary,38,$20001-$25000,European/Pakeha
+1900883,Female,56,"marr,liv as mar","Incpl university,other",10,$10000 or less,European/Pakeha
+1900889,"NA, refused",NA,"NA, refused",NA,40,$30001-$40000,European/Pakeha
+1900895,Female,23,"marr,liv as mar","Incpl university,other",40,$25001-$30000,European/Pakeha
+1901111,Male,70,"marr,liv as mar",Secondary compl,NAV;NAP,$10000 or less,European/Pakeha
+1901117,Female,34,"marr,liv as mar",Secondary compl,40,$20001-$25000,European/Pakeha
+1901123,Female,66,divorced,Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1901141,Female,34,"marr,liv as mar","Incpl university,other",5,$10000 or less,European/Pakeha
+1901165,Female,67,"marr,liv as mar",Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1901171,Male,33,"marr,liv as mar","Incpl university,other",45,$40001-$50000,Other
+1901183,Male,58,"marr,liv as mar",Primary compl,50,$30001-$40000,European/Pakeha
+1901189,Female,19,"single,nev marr","Incpl university,other",NAV;NAP,$10001-$15000,European/Pakeha
+1901201,Female,27,"marr,liv as mar",University degree,40,$30001-$40000,European/Pakeha
+1901207,Female,63,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901219,Male,39,"marr,liv as mar",University degree,45,$70001-$100000,European/Pakeha
+1901237,Female,59,widowed,Incpl secondary,43,$20001-$25000,European/Pakeha
+1901243,Male,64,"marr,liv as mar",University degree,NAV;NAP,$30001-$40000,European/Pakeha
+1901249,Male,29,"marr,liv as mar",Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1901261,Female,30,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1901273,Male,47,"marr,liv as mar",University degree,32,$20001-$25000,Other
+1901291,Female,66,"marr,liv as mar",Incpl secondary,NAV;NAP,$25001-$30000,European/Pakeha
+1901297,Female,39,separated,Incpl secondary,36,$15001-$20000,European/Pakeha
+1901315,Male,43,divorced,Secondary compl,45,$20001-$25000,Chinese
+1901321,Female,35,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901327,Male,27,"marr,liv as mar",University degree,40,$20001-$25000,European/Pakeha
+1901339,Female,33,separated,Secondary compl,NAV;NAP,$10001-$15000,European/Pakeha
+1901345,Female,56,"marr,liv as mar","Incpl university,other",NAV;NAP,NAV; NAP No own income,European/Pakeha
+1901381,Female,39,"marr,liv as mar","Incpl university,other",16,$25001-$30000,European/Pakeha
+1901387,Female,45,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901393,Male,22,"single,nev marr",University degree,NAV;NAP,$10001-$15000,European/Pakeha
+1901399,Male,73,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901405,Female,64,widowed,Secondary compl,6,$40001-$50000,European/Pakeha
+1901411,Female,42,"marr,liv as mar",Secondary compl,42,$15001-$20000,European/Pakeha
+1901417,Male,44,"marr,liv as mar","Incpl university,other",45,$50001-$70000,European/Pakeha
+1901423,Male,57,"marr,liv as mar","Incpl university,other",40,$30001-$40000,European/Pakeha
+1901429,Male,47,"marr,liv as mar",Incpl secondary,40,$20001-$25000,European/Pakeha
+1901435,Male,72,widowed,Incpl secondary,NAV;NAP,NAV; NAP No own income,New Zealand Maori
+1901441,Male,21,"single,nev marr",Incpl secondary,43,NAV; NAP No own income,European/Pakeha
+1901453,Female,31,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1901459,Female,49,"marr,liv as mar",Secondary compl,14,$10001-$15000,European/Pakeha
+1901471,Female,74,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1901477,Female,48,"marr,liv as mar",Secondary compl,40,$25001-$30000,European/Pakeha
+1901483,Male,65,"marr,liv as mar","Incpl university,other",45,$30001-$40000,European/Pakeha
+1901495,Female,43,"marr,liv as mar",Incpl secondary,30,$10000 or less,European/Pakeha
+1901501,Female,54,"marr,liv as mar",Primary compl,NAV;NAP,$25001-$30000,European/Pakeha
+1901531,"NA, refused",NA,"NA, refused",NA,NAV;NAP,NAV; NAP No own income,NAV
+1901537,Female,44,"marr,liv as mar",University degree,25,$30001-$40000,European/Pakeha
+1901549,Female,24,"single,nev marr",University degree,50,$25001-$30000,European/Pakeha
+1901555,Male,20,"single,nev marr","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901561,Male,68,"marr,liv as mar","Incpl university,other",NAV;NAP,$15001-$20000,European/Pakeha
+1901573,Male,51,"marr,liv as mar",University degree,40,$50001-$70000,European/Pakeha
+1901591,Male,70,"single,nev marr",NA,7,$15001-$20000,European/Pakeha
+1901597,Male,68,"marr,liv as mar",Incpl secondary,NAV;NAP,NAV; NAP No own income,European/Pakeha
+1901609,Male,36,"marr,liv as mar",Secondary compl,64,$30001-$40000,Samoan
+1901615,Male,66,"marr,liv as mar",Incpl secondary,NAV;NAP,$20001-$25000,European/Pakeha
+1901627,Male,68,"marr,liv as mar",Primary compl,NAV;NAP,$10001-$15000,New Zealand Maori
+1901633,Female,75,widowed,Primary compl,NAV;NAP,$10000 or less,New Zealand Maori
+1901639,Female,41,"marr,liv as mar","Incpl university,other",50,$15001-$20000,European/Pakeha
+1900901,Male,21,"single,nev marr","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1900913,Female,37,"marr,liv as mar",Incpl secondary,40,$15001-$20000,New Zealand Maori
+1900937,Male,61,widowed,Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1900949,Female,25,"single,nev marr","Incpl university,other",42,$30001-$40000,European/Pakeha
+1900961,Male,45,"marr,liv as mar",Secondary compl,45,$50001-$70000,European/Pakeha
+1900973,Female,59,widowed,University degree,NAV;NAP,$10001-$15000,European/Pakeha
+1900979,Male,72,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1900985,Female,20,"single,nev marr",University degree,42,$15001-$20000,European/Pakeha
+1900997,Female,26,"marr,liv as mar","Incpl university,other",45,$40001-$50000,European/Pakeha
+1901003,Male,54,"marr,liv as mar",Incpl secondary,50,$40001-$50000,Other
+1901021,Male,19,"single,nev marr","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901009,Male,20,"single,nev marr",Secondary compl,NAV;NAP,$10000 or less,European/Pakeha
+1901027,Male,63,"marr,liv as mar","Incpl university,other",50,$70001-$100000,European/Pakeha
+1901039,Female,48,"marr,liv as mar",Incpl secondary,70,$25001-$30000,European/Pakeha
+1901045,Female,50,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1901057,Female,35,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901063,Female,56,"marr,liv as mar",Secondary compl,70,$10001-$15000,European/Pakeha
+1901069,Female,37,"marr,liv as mar",Secondary compl,50,$15001-$20000,European/Pakeha
+1901087,Male,58,"marr,liv as mar",Secondary compl,40,$40001-$50000,European/Pakeha
+1901093,Female,56,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,NAV
+1900902,Female,39,"marr,liv as mar",Incpl secondary,40,$30001-$40000,European/Pakeha
+1900914,Female,48,"marr,liv as mar","Incpl university,other",60,$30001-$40000,European/Pakeha
+1900932,Male,33,"marr,liv as mar",Incpl secondary,44,$20001-$25000,European/Pakeha
+1900938,Male,40,"marr,liv as mar",Incpl secondary,50,$20001-$25000,NAV
+1900956,Female,47,"single,nev marr","Incpl university,other",15,$10001-$15000,Samoan
+1900968,Male,27,"single,nev marr","Incpl university,other",45,$15001-$20000,European/Pakeha
+1900980,Female,32,"single,nev marr","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1900986,Female,48,"single,nev marr","Incpl university,other",NAV;NAP,$10001-$15000,European/Pakeha
+1900992,Female,51,divorced,Incpl secondary,45,$40001-$50000,European/Pakeha
+1900998,Female,59,"marr,liv as mar",Incpl secondary,NAV;NAP,$10000 or less,European/Pakeha
+1901004,Female,54,"marr,liv as mar","Incpl university,other",18,$10000 or less,European/Pakeha
+1901022,Female,36,"marr,liv as mar","Incpl university,other",30,$20001-$25000,European/Pakeha
+1901028,Female,77,widowed,Incpl secondary,NAV;NAP,NAV; NAP No own income,NAV
+1901034,Female,39,"marr,liv as mar","Incpl university,other",6,$10000 or less,European/Pakeha
+1901040,Female,51,"marr,liv as mar","Incpl university,other",NAV;NAP,$10000 or less,European/Pakeha
+1901046,Female,38,"marr,liv as mar",Secondary compl,NAV;NAP,$40001-$50000,European/Pakeha
+1901052,Male,43,"marr,liv as mar","Incpl university,other",45,$30001-$40000,European/Pakeha
+1901058,Female,68,"marr,liv as mar",Incpl secondary,NAV;NAP,$10001-$15000,European/Pakeha
+1901070,Female,27,"marr,liv as mar","Incpl university,other",18,$10000 or less,European/Pakeha
+1901076,Female,33,"marr,liv as mar",Incpl secondary,25,$10001-$15000,European/Pakeha
+1901082,Female,40,"marr,liv as mar","Incpl university,other",35,$30001-$40000,Other
+1901100,Male,72,"marr,liv as mar","Incpl university,other",NAV;NAP,$50001-$70000,European/Pakeha
+1901106,Male,61,"marr,liv as mar",University degree,40,$20001-$25000,European/Pakeha
+1901118,Male,27,"single,nev marr",University degree,40,NAV; NAP No own income,European/Pakeha
+1901130,Female,37,"marr,liv as mar",University degree,45,$25001-$30000,European/Pakeha
+1901136,Female,36,"marr,liv as mar",Secondary compl,NAV;NAP,$10000 or less,European/Pakeha
+1901142,Female,47,"marr,liv as mar",Incpl secondary,32,$10001-$15000,Other

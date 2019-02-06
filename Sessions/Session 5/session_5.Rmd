@@ -1,0 +1,403 @@
+---
+title: "Session 5"
+subtitle: "Base **R** graphics"
+author: |
+  | `r readLines('../../metadata.txt')[1]`
+  | Statistical Consulting Centre
+date: |
+  | `r readLines('../../metadata.txt')[2]`
+  |
+  | <img src="../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output:
+  revealjs::revealjs_presentation:
+    css: workshop.css
+    theme: serif
+    highlight: tango
+    overview: true
+    transition: zoom
+    background_transition: zoom
+    transitionSpeed: fast
+    self_contained: false
+    reveal_plugins: ["notes", "menu", "zoom"]
+    reveal_options:
+      menu:
+        openButton: false
+      notes:
+        defaultTiming: 120
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(tidy = FALSE, comment = "#R: ",
+                      fig.height=4.5, fig.width=4.5)
+
+options(width = 640)
+
+gw = getwd()
+setwd("../../")
+source("Source/session_3.R")
+setwd(gw)
+
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+## A recap of yesterday
+
+- We finalized our issp data set (`issp.df`).
+
+Similarly, during the exercise sessions:
+
+- You have finalized your sport study data set (`sport.df`).
+
+## Session goals
+
+- Plotting in base **R**:
+
+    + Histograms
+    + Boxplots
+    + Bar plots
+    + Scatter plots
+
+# Histograms
+
+## Histograms in **R**
+
+Histograms are useful for exploring the distribution of continuous variables. 
+
+```{r}
+hist(issp.df$total)
+```
+
+
+## Changing the number of breaks
+
+We can change the number of breaks with the `breaks` argument:
+
+```{r}
+hist(issp.df$total, breaks = 20)
+```
+
+## Changing the labels
+
+We can change the x (or y) label with `xlab` (or `ylab`):
+
+```{r}
+hist(issp.df$total, 
+     breaks = 20, xlab = "Total score")
+```
+
+## Changing the `main` title
+
+```{r}
+hist(issp.df$total, 
+     breaks = 20, xlab = "Total score",
+     main = "Histogram of Total score")
+```
+
+# Boxplots
+
+## Boxplot in **R**
+
+A boxplot is useful for exploring total score between groups:
+
+```{r}
+boxplot(total ~ gender, data = issp.df) # y ~ group
+```
+
+## Include labels
+
+We can force a linebreak in a label with `\n`.
+
+```{r}
+boxplot(total ~ gender, data = issp.df, 
+        xlab = "Gender", ylab = "Total score",
+        main = "Total score versus Gender")
+```
+
+## Outliers
+
+It is common to spot outliers when plotting. We can use the `subset` function to return the
+relevant observation:
+
+```{r}
+subset(issp.df, total > 16)
+
+subset(issp.df, total < 6)
+```
+
+
+
+## Boxplot without outliers
+
+We can use the `outline = FALSE` argument to suppress outliers:
+
+```{r, fig.height = 4, fig.width=4}
+boxplot(total ~ gender, data = issp.df, 
+        xlab = "Gender", ylab = "Total score",
+        main = "Total score versus Gender",
+        outline = FALSE)
+```
+
+## Rotate text on y-axis
+
+Use `las = 1` to rotate text on the y-axis.
+
+```{r, fig.height = 4, fig.width=4}
+boxplot(total ~ gender, data = issp.df, 
+        xlab = "Gender", ylab = "Total score",
+        main = "Total score versus Gender",
+        outline = FALSE, las = 1)
+```
+
+# Bar plots
+
+## Bar plot for a 1-way frequency table {data-transition="zoom-in none-out"}
+
+Bar plots are useful for plotting the results from a frequency table.
+
+```{r}
+age_table = with(issp.df, table(age_group))
+age_table
+```
+
+We can use the `barplot` function to create a bar plot of a frequency table:
+
+```{r, eval = FALSE}
+barplot(age_table)
+```
+
+## Bar plot for a 1-way frequency table {data-transition="zoom-out none-in"}
+
+```{r, echo = FALSE}
+age_table
+```
+
+```{r, echo = FALSE}
+barplot(age_table)
+```
+
+## Bar plot with extra arguments
+
+```{r}
+barplot(age_table, main = "Age Group",
+        ylab = "Frequency", las = 1)
+```
+
+## Bar plot for a 1-way table of proportions {data-transition="zoom-in none-out"}
+
+Bar plots can also be used for plotting a table of proportions.
+
+```{r}
+age_prop_table = with(issp.df, prop.table(table(age_group)))
+age_prop_table
+```
+
+We can use the `barplot` function to create a bar plot of the proportions:
+
+```{r, eval = FALSE}
+barplot(age_prop_table, main = "Age Group",
+        ylab = "Proportion", las = 1)
+```
+
+## Bar plot for a 1-way table of proportions {data-transition="zoom-out none-in"}
+
+```{r, echo = FALSE}
+age_prop_table
+```
+
+```{r, echo = FALSE}
+barplot(age_prop_table, main = "Climate classifications",
+        ylab = "Proportion", las = 1)
+```
+
+## Bar plot of percentages
+
+```{r}
+barplot(age_prop_table * 100, main = "Climate classifications",
+        ylab = "Percent", las = 1)
+```
+
+## Bar plot for a 2-way frequency table {data-transition="zoom-in none-out"}
+
+```{r}
+age_table_2 = with(issp.df, table(q5, age_group))
+age_table_2
+```
+
+We can use the `barplot` function for a 2-way frequency table:
+
+```{r, eval = FALSE}
+barplot(age_table_2)
+```
+
+## Bar plot for a 2-way frequency table {data-transition="zoom-out none-in"}
+
+```{r, echo = FALSE}
+age_table_2
+```
+
+```{r, echo = FALSE}
+barplot(age_table_2)
+```
+
+## Side-by-side bar plot
+
+Use `beside = TRUE` to create a side-by-side bar plot:
+
+```{r}
+barplot(age_table_2, beside = TRUE)
+```
+
+## Include a legend
+
+```{r, fig.width = 7, fig.height = 5}
+barplot(age_table_2, beside = TRUE, legend.text = TRUE)
+```
+
+## Bar plot with extra arguments
+
+```{r, fig.width = 7, fig.height = 5}
+barplot(age_table_2, beside = TRUE, legend.text = TRUE,
+         xlab = "Age group",
+        las = 1, ylab = "Frequency")
+```
+
+## Bar plot for a 2-way table of proportions {data-transition="zoom-in none-out"}
+
+Bar plots are useful for plotting the results of a 2-way table of proportions.
+
+```{r}
+age_prop_table_2 = with(issp.df, 
+                        prop.table(table(q5, age_group), margin = 2))
+age_prop_table_2
+```
+
+We can (again) use the `barplot` function to create a bar plot of a 2-way table of proportions:
+
+```{r, eval = FALSE}
+barplot(age_prop_table_2, beside = TRUE, legend.text = TRUE)
+```
+
+## Bar plot for a 2-way table of proportions {data-transition="zoom-out none-in"}
+
+```{r, echo = FALSE}
+age_prop_table_2
+```
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+barplot(age_prop_table_2, beside = TRUE, legend.text = TRUE)
+```
+
+## Extend axis limits
+
+We can extend the limits of the y-axis with the `ylim` argument:
+
+```{r}
+barplot(age_prop_table_2, beside = TRUE, legend.text = TRUE, 
+        ylim = c(0, 1))
+```
+
+## Final bar plot for 2-way table of proportions
+
+```{r}
+barplot(age_prop_table_2 * 100, beside = TRUE, legend.text = TRUE,
+        xlab = "Age group", ylab = "Percent", ylim = c(0, 100), las = 1)
+```
+
+# Scatter plots
+
+## Scatter plot in **R**
+
+Scatter plots are useful for exploring the bivariate relationships between two
+continuous variables. Use the `plot` function in **R**:
+
+```{r, out.width = 400, out.height = 400, fig.height = 6, fig.width = 6}
+with(issp.df, plot(age, total))
+```
+
+## Log scales
+
+Sometimes it may be better to plot the variables (or just one) on a log scale:
+
+```{r, out.width = 400, out.height = 400, fig.height = 6, fig.width = 6}
+with(issp.df, plot(age, total, log = "xy"))
+```
+
+## Trend line
+
+A trend line is useful to help visualise the (linear) relationship between 2 
+variables.
+
+Remember, a trend line is typically calculated using:
+
+$$
+\hat{Y} = a + bX
+$$
+
+where $a$ (intercept) and $b$ (slope) are estimated parameters. $\hat{Y}$ is 
+estimated at a range of values of $X$ so we can draw a line between them.
+
+## Estimating the trend line
+
+We can estimate $a$ and $b$ easily in **R** using `lm`:
+
+```{r}
+trend_line = lm(log10(total) ~ log10(age), data = issp.df)
+trend_line
+```
+
+## Adding the trend line
+
+We can now add a trend line to our scatter plot:
+
+```{r, eval = FALSE}
+abline(trend_line)
+```
+
+```{r, echo = FALSE}
+with(issp.df, plot(age, total, log = "xy"))
+abline(trend_line)
+```
+
+## Scatter plot with extra arguments
+
+```{r}
+with(issp.df, plot(age, total, log = "xy", las = 1,
+                          main = "Total Score vs Age",
+                          ylab = "Total Score", xlab = "Age"))
+abline(trend_line)
+```
+
+## Parting thoughts on base **R** graphics
+
+- Plotting in base **R** is not pretty, but it's very useful!
+- I personally use `hist`, `boxplot`, and `plot` a lot:
+
+    + `hist` for quick checking of distributions.
+    + `plot` for quick checking of bivariate relationships.
+    + `boxplot` for exploring data before an ANOVA.
+
+- Don't spend too long making a base **R** plot look pretty.
+- Tweaking these plots too much can be daunting.
+- For creating publication-worthy graphics, use `ggplot2`.
+
+## Summary
+
+- Plots in base **R**:
+
+    + histograms (`hist`)
+    + boxplots (`boxplot`)
+    + bar plots (`barplot`)
+    + scatter plots (`plot`)
+    + trend line (`abline`)
+
+- Useful arguments:
+
+    + `las = 1`
+    + `beside = TRUE`
+    + `main`, `ylab`, `xlab`
+
+# {data-background-image="../Logos/questions.png" data-background-size="50%" data-background-position="bottom"}
+
+# Exercise 5 {data-background-image="../Logos/exercise.jpg" data-background-size="82%" data-background-position="bottom"}

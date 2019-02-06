@@ -1,0 +1,9 @@
+\.[rR]proj\.user
+.Rhistory
+.RData
+.Ruserdata
+*_files/
+*.html
+*.pdf
+!River\ Water\ Quality.pdf
+.Rproj.user

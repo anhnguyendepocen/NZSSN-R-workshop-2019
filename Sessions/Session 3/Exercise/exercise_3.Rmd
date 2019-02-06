@@ -1,0 +1,128 @@
+---
+title: "Exercise 3"
+subtitle: "Joining and reshaping"
+author: "Statistical Consulting Centre"
+date: |
+  | `r readLines('../../../metadata.txt')[2]`
+  |
+  | <img src="../../../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#R: ")
+
+gw = getwd()
+setwd("../../../")
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+source("Source/ex_2.R", encoding = 'UTF-8')
+setwd(gw)
+
+library(knitr)
+library(kableExtra)
+library(dplyr)
+```
+
+For these exercises we will be using the `sports.df` data set again. Run the following 2 lines to ensure you're up to date from the previous exercises:
+
+```{r, echo = TRUE, eval = FALSE}
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+source("Source/ex_2.R", encoding = 'UTF-8')
+```
+
+# 1. `factor`
+
+1. Examine the `sports.df` dataset, and detemine which variables can be converted with factor without specify the order.
+
+```{r} 
+sports.df$gender = factor(sports.df$gender)
+sports.df$partner = factor(sports.df$partner)
+sports.df$ethnicity = factor(sports.df$ethnicity)
+```
+
+2. Check the freqnecy of `income` variable in `sports.df` and appropriately order its levels. 
+
+```{r} 
+
+table(sports.df$income)
+
+sports.df$income = factor(sports.df$income, 
+  levels = c("< 5 000$", "10 000$-15 000$", "15 000$-20 000$",
+             "20 000$-25 000$", "25 000$-30 000$", "30 000$-40 000$",
+             "40 000$-50 000$", "50 000$-70 000$", "70 000$-100 000$",
+             "> 100 000$"))
+
+table(sports.df$income)
+
+```
+
+3. Create a new variable into `sport.df` which categorises all subjects into one of three age groups: "Under 40", "41 to 60" and "Over 61" and convert this variable into factors with appropriate levels.
+
+
+```{r}
+age_group = 
+  with(sports.df, ifelse(age <= 40, "Under 40",
+                         ifelse(age > 40 &
+                                  age <= 60, "41 to 60", "Over 61")))
+age_group =
+  factor(age_group, levels = c("Under 40", "41 to 60", "Over 61"))
+
+
+sports.df$age_group = age_group
+```
+
+
+
+# 2. Combine data
+
+Now you have another data set containing the questionnaire results called `sports questionnaire.csv`, and it contains 6 columns: 
+
+- `id`: The unique subject ID (matches the subject ID from the initial data set).
+- `q1a`-- `q1e`: Reponses from the questionnaire of each subject and presented as likert scales. 
+
+
+1. Read in the `sports questionnaire.csv` data set into **R** and call it `mean.df`.
+
+```{r, echo=FALSE}
+setwd("../../../")
+mean.df = read.csv("Data/sports questionnaire.csv", stringsAsFactors = FALSE)
+setwd(gw)
+```
+
+```{r, eval=FALSE}
+mean.df = read.csv("Data/sports questionnaire.csv", stringsAsFactors = FALSE)
+```
+
+2. Ensure that the ID variables in both data sets are unique.
+
+```{r}
+anyDuplicated(sports.df$id)
+
+anyDuplicated(mean.df$id)
+```
+
+3. Use a `full_join` to combine these 2 data sets. Have a look at the data by typing `View(sports.df)` into the console.
+
+```{r}
+sports.df = full_join(sports.df, mean.df, by = "id")
+
+```
+
+
+# 3. Create new variables
+
+Calulate the average of the reponses from the questionnaire in the `sports.df` dataframe, and call it `average`.
+
+```{r}
+sports.df$average = 
+  with(sports.df, (q1a + q1b + q1c + q1d + q1e)/5)
+```
+
+# 4. Finalise the dataset
+
+Perform the listwise deletion of missing values to finalise `sports.df` dataset.
+
+```{r}
+sports.df = na.omit(sports.df)
+```
+

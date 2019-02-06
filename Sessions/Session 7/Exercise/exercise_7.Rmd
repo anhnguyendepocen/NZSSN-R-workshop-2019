@@ -1,0 +1,141 @@
+---
+title: "Exercise 7"
+subtitle: "Data analysis in **R**"
+author: "Statistical Consulting Centre"
+date: |
+  | `r readLines('../../../metadata.txt')[2]`
+  |
+  | <img src="../../../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#R: ")
+
+gw = getwd()
+setwd("../../../")
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+mean.df = read.csv("Data/sports questionnaire.csv")
+source("Source/ex_3.R")
+setwd(gw)
+library(dplyr)
+library(ggplot2)
+```
+
+For these exercises we will be using the `sports.df` data set again. Run the following lines to ensure you're up to date from the previous exercises:
+
+```{r, echo = TRUE, eval = FALSE}
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+mean.df = read.csv("Data/sports questionnaire.csv")
+source("Source/ex_3.R")
+library(ggplot2)
+```
+
+# 1. Student's 2-sample t-test
+
+We will conduct a 2-sample t-test to answer the following research question:
+1. males and females have different mean `average` scores.
+
+```{r}
+t.test(average ~ gender, data = sports.df)
+```
+
+2. The mean `average` score of respondents living with their partners differs from that of respondents who do not live with their partners.
+
+```{r}
+t.test(average ~ partner, data = sports.df)
+```
+
+# 2. 1-way ANOVA
+
+We will use the `sports.df` data set to conduct a 1-way ANOVA to answer the  following research question:
+
+> "Does the average score different between age groups?"
+
+Note that in this scenario, we (again) have one continuous variable (`average`) that has been taken on 3 independent samples (`age_group` variable: `Under 40`, `41 to 60` and `Over 61`). We wish to determine if there are any significant differences in the averages, therefore we will use a 1-way ANOVA. 
+
+What are you expecting the results to show?
+
+1. Conduct a one-way ANOVA using `aov`. Interpret the p-value.
+
+```{r}
+my_1way_aov = aov(average ~ age_group, data = sports.df)
+summary(my_1way_aov)
+
+# We have evidence to suggest that the average score is 
+# different in one of the age groups (p-value = 0.0181).
+```
+
+2. Find the average BMI differences for each diet.
+
+```{r}
+model.tables(my_1way_aov, "means")
+```
+
+3. Perform pair-wise comparisons between all age group using Tukey's HSD to compute p-values adjusted for multiple comparisons. Which groups differ? Are you surprised?
+
+```{r}
+TukeyHSD(my_1way_aov)
+```
+
+# 3. 2-way ANOVA
+
+We will use the `sports.df` data set to conduct a 2-way ANOVA to answer the following research question:
+
+> "Does the average score differ between any of the age groups and/or genders?"
+
+Note that all we will be doing to answer this question is adding one more variable (`gender`) to our 1-way ANOVA. We now have one continuous variable as our response variable (`average` score) and 2 grouping variables (`age_group` and `gender`), hence we will conduct a 2-way ANOVA.
+
+1. Use `interaction.plot()`, to examine the response for two-way combinations of factors.
+
+```{r}
+
+with(sports.df, interaction.plot(age_group, gender, average))
+
+```
+
+Are you expecting a significant result?
+
+
+3. Conduct a two-way ANOVA using `aov` with an interaction term. Do we have a significant interaction? Are you surprised?
+
+```{r}
+my_2way_aov = aov(average ~ age_group * gender, data = sports.df)
+summary(my_2way_aov)
+
+# We have no evidence to suggest that there is an interaction between 
+# age groups and genders.
+```
+
+2. Find the average score for each age group and gender combination.
+
+```{r}
+model.tables(my_2way_aov, "means")
+```
+
+3. Perform pair-wise comparisons between all age group and gender combinations using Tukey's HSD to compute p-values adjusted for multiple comparisons. Which groups differ? Are you surprised?
+
+```{r}
+TukeyHSD(my_2way_aov)
+```
+
+If you have done enough exploratory work, you should never be surprised by your results.
+
+# 4. Tests of independence
+
+1. Produce a two-way frequency table of counts between `partner` and `gender`.
+
+```{r}
+partner_table = with(sports.df, table(partner, gender))
+partner_table
+```
+
+2. Do you think that partnership status depends on gender? Perform an appropriate test to find out.
+
+```{r}
+chisq.test(partner_table)
+
+# There is a strong evidence that artnership status depends on gender.
+```
+
+

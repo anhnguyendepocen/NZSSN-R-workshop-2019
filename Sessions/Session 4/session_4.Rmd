@@ -1,0 +1,287 @@
+---
+title: "Session 4"
+subtitle: "Group and summarise"
+author: |
+  | `r readLines('../../metadata.txt')[1]`
+  | Statistical Consulting Centre
+date: |
+  | `r readLines('../../metadata.txt')[2]`
+  |
+  | <img src="../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output:
+  revealjs::revealjs_presentation:
+    css: workshop.css
+    theme: serif
+    highlight: tango
+    overview: true
+    transition: zoom
+    background_transition: zoom
+    transitionSpeed: fast
+    self_contained: false
+    reveal_plugins: ["notes", "menu", "zoom"]
+    reveal_options:
+      menu:
+        openButton: false
+      notes:
+        defaultTiming: 120
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(tidy = FALSE, comment = "#R: ")
+options(width = 64)
+
+gw = getwd()
+setwd("../../")
+source(textConnection(readLines("Source/session_3.R ")))
+setwd(gw)
+
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+## Session goals
+
+- Pipe operator to simplify code (%>%)
+- Summary tables
+
+# Pipe operator (%>%)
+
+## Pipe operator in **R**
+
+The pipe operator (%>%):
+
+- reduces the requirement of nested parentheses (functions within functions).
+- orders the functional operations logically.
+- simplifies **R** code and makes it easier to follow.
+
+### RStudio shortcut: Ctrl-Shift-M
+
+## Pipe operator: An example {data-transition="zoom-in none-out"}
+
+> "With my `issp.df` dataset,  
+> I want to group by the `gender` variable  
+> and summarise `age`
+> by calculating its mean and standard deviation."
+
+![](Figure/thinking.png)
+
+## Pipe operator: An example {data-transition="none-in zoom-out"}
+
+> "With my `issp.df` dataset,  
+> I want to group by the `gender` variable  
+> and summarise `age`
+> by calculating its mean and standard deviation."
+
+```{r, tidy = FALSE}
+issp.df %>% 
+  group_by(gender) %>% 
+  summarise(Mean = mean(age),
+            SD = sd(total))
+```
+
+
+## Types of summaries
+
+There are many different ways to summarise a variable, including:
+
+```{r, echo = FALSE}
+data.frame(type = c("Continuous", "Continuous", "Discrete", "Discrete"),
+           summary = c("Measure of centre", "Variability", "total", "Missing"),
+           example = c("Mean, median", "Variance, SD, range, IQR",
+                       "Percent, (relative) frequency", 
+                       "Percent, (relative) frequency")) %>% 
+  kable(format = "html", col.names = c("Variable", "Summary",  "Example")) %>% 
+  kable_styling(full_width = FALSE)%>% 
+  collapse_rows(columns = 1)
+```
+
+# Summary tables
+
+## Measure of centre summaries
+
+> "With my `issp.df` dataset, 
+> I want to group by the `age_group` (`Under 35`, `36 to 60` and `Over 61`)  
+> and summarise `total` score by calculating its mean and median."
+
+```{r}
+issp.df %>% 
+  group_by(age_group) %>% 
+  summarise(Avg = mean(total),
+            Median = median(total))
+```
+
+## Measure of variability summaries
+
+> "With my `issp.df` dataset,
+> I want to group by ethnicity (`Asian`, `Euro`, `Maori`, `Other` and `Pacific`)
+> and summarise the variability of `total` score"
+
+```{r, eval = FALSE}
+issp.df %>% 
+  group_by(ethnicity) %>% 
+  summarise(Freq = n(),
+            Var = var(total),
+            SD = sd(total),
+            Min = min(total),
+            Max = max(total),
+            Range = Max - Min,
+            IQR = IQR(total))
+```
+
+## Measure of variability summaries
+
+> "With my `issp.df` dataset, 
+> I want to group by ethnicity (`Asian`, `Euro`, `Maori`, `Other` and `Pacific`)
+> and summarise the variability of `total` score"
+
+```{r, echo = FALSE}
+issp.df %>% 
+  group_by(ethnicity) %>% 
+  summarise(Freq = n(),
+            Var = var(total),
+            SD = sd(total),
+            Min = min(total),
+            Max = max(total),
+            Range = Max - Min,
+            IQR = IQR(total))
+```
+
+## Grouping by more than 1 variable
+
+> "With my `issp.df` dataset, 
+> I want to group by `gender` and `age_group`   
+> and summarise `working_hours_per_week` score 
+> by calculating the mean."
+
+```{r}
+issp.df %>% 
+  group_by(gender, age_group) %>% 
+  summarise(Avg = mean(working_hours_per_week))
+```
+
+# Frequency tables
+
+## Frequency tables
+
+Frequency tables are easy to calculate in base **R** with the `table` function:
+
+```{r}
+with(issp.df, table(gender))
+```
+
+We can also easily produce 2-way frequency tables:
+
+```{r}
+with(issp.df, table(gender, income))
+```
+
+## Table of proportions
+
+We can wrap the `prop.table` function around the `table` function to produce a table of proportions:
+
+```{r}
+with(issp.df, prop.table(table(gender)))
+```
+
+## Table of proportions
+
+We can wrap the `prop.table` function around the `table` function to produce a table of proportions:
+
+```{r}
+with(issp.df, prop.table(table(gender, income)))
+```
+
+Note that these proportions sum to 1.
+
+## Table of row-wise and column-wise proportions
+
+We can use the `margin` argument to specify if we want the rows (`margin = 1`) or columns (`margin = 2`) to add to 1.
+
+```{r}
+with(issp.df, prop.table(table(gender, income), margin = 1))
+```
+
+## Table of row-wise and column-wise proportions
+
+We can use the `margin` argument to specify if we want the rows (`margin = 1`) or columns (`margin = 2`) to add to 1.
+
+```{r}
+with(issp.df, prop.table(table(gender, income), margin = 2))
+```
+
+## Frequency tables with the pipe operator
+
+So far, we have seen how to easily produce frequency tables. We can also create frequency tables with the pipe operator:
+
+```{r}
+issp.df %>% 
+  group_by(gender, income) %>% 
+  summarise(Freq = n()) 
+```
+
+## Larger summary tables {data-transition="zoom-in none-out"}
+
+The real advantage of using the pipe operator for frequency tables is when you want to calculate many summaries and group by more than 2 variables:
+
+```{r, eval = FALSE}
+issp.df %>% 
+  group_by(age_group, gender, income) %>%
+  summarise(Freq = n(),
+            avg_age = mean(age),
+            avg_total = mean(total))
+```
+
+Here, we have 3 grouping variables (`age_group`, `gender`  and `income`), and we are calculating 4 summaries (frequency, average `age` and average `total` score).
+
+## Larger summary tables {data-transition="zoom-out none-in"}
+
+The real advantage of using the pipe operator for frequency tables is when you want to calculate many summaries and group by more than 2 variables:
+
+```{r, echo = FALSE}
+issp.df %>% 
+  group_by(age_group, gender, income) %>%
+  summarise(Freq = n(),
+            avg_age = mean(age),
+            avg_total = mean(total))
+```
+
+## Arrange {data-transition="none-out zoom-in"}
+
+We can sort a table with the `arrange` function. For example, we can arrange the table by increasing average `age`:
+
+```{r, eval = FALSE}
+issp.df %>% 
+  group_by(age_group, gender, income) %>%
+  summarise(Freq = n(),
+            avg_age = mean(age),
+            avg_total = mean(total)) %>% 
+  arrange(avg_age)
+```
+
+We could have used `arrange(desc(avg_age))` to arrange by decreasing values.
+
+## Arrange {data-transition="zoom-out none-in"}
+
+We can sort a table with the `arrange` function. For example, we can arrange the table by increasing average `age`:
+
+```{r, echo = FALSE}
+issp.df%>% 
+  group_by(age_group, gender, income) %>%
+  summarise(Freq = n(),
+            avg_age = mean(age),
+            avg_total = mean(total)) %>% 
+  arrange(avg_age)
+```
+
+
+## Summary
+
+- The pipe operator (%>%)
+- Types of summaries
+- Summary tables
+- The `arrange` function
+
+# {data-background-image="../Logos/questions.png" data-background-size="50%" data-background-position="bottom"}
+
+# Exercise 4 {data-background-image="../Logos/exercise.jpg" data-background-size="82%" data-background-position="bottom"}

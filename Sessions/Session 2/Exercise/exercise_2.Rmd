@@ -1,0 +1,195 @@
+---
+title: "Exercise 2"
+subtitle: "Packages, functions, data cleaning and subsetting"
+author: "Statistical Consulting Centre"
+date: |
+  | `r readLines('../../../metadata.txt')[2]`
+  |
+  | <img src="../../../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#R: ")
+library(dplyr)
+library(knitr)
+
+sports.df = read.csv("../../../Data/sports demographic.csv", stringsAsFactors = FALSE)
+```
+
+For these exercises we will be using the `sports.df` data set again.
+
+# 1. Calculate the standard error of the mean with base **R**
+
+Using the conventional formula for the standard error of the mean (SEM) below, calculate the estimate of the SEM for the `age` of subjects from the survey.
+
+$$
+\hat{\mathrm{SEM}} = \frac{s}{\sqrt{n}}
+$$
+
+Where $s$ is the sample standard deviation (`sd()` function), and $n$ is the sample size (`length()` function).
+
+```{r}
+with(sports.df, sd(age) / sqrt(length(age)))
+```
+
+# 2. Calculate the standard error of the mean with the `plotrix` package
+
+**R** packages are collections of user-defined functions. The function `std.error()`, for example, is a function that calculates the standard error of the mean (SEM), and is contained in the `plotrix` package.
+
+1. Let's see what happens when we try to use a function within a package before that package has been installed and loaded. Try to calculate the SEM of the weight of the subjects in the diet study using the `std.error()` function.
+
+```{r, error = TRUE}
+std.error(sports.df$age)
+```
+
+**R** is telling us that it can't find the `std.error` function, because the `plotrix` package hasn't been installed and/or loaded.
+
+2. Install the `plotrix` package:
+  
+    (a) Select the **Packages** tab from the bottom right panel of your Rstudio interface.
+    
+    (b) Click on the *Install* icon located just below the **Packages** tab.
+    
+    (c) Type `plotrix` in the blank space provided below the heading "*Packages (separate multiple with space or comma):*"
+    
+    (d) Select *No* if you are asked you to restart **R**.
+    
+    The `plotrix` package has now been installed on your computer, but we need to load the functions into our **R** session so **R** can find the `std.error` function:
+
+    (e) Load the `plotrix` package using the code `library(plotrix)` to make 
+    the functions contained in the `plotrix` package, available in the current **R** session.
+
+```{r}
+library(plotrix)
+```
+
+3. Now, use the `std.error` function to calculate the standard error of the mean weight (in pounds) of the subjects in our study.
+
+```{r}
+std.error(sports.df$age)
+```
+
+# 3. Subsetting datasets
+
+1. Find the following:
+
+- The age of the first subject.
+    
+```{r}
+sports.df$age[1]
+```
+
+- The age of the last subject. Note, we can use the `nrow()` function to return the number of rows in the data set.
+    
+```{r}
+sports.df$age[996]
+
+# Or:
+sports.df$age[nrow(sports.df)]
+
+# Note: nrow() returns the number of rows in the data set
+```
+
+- The age of the first and last subject in our study.
+    
+```{r}
+sports.df$age[c(1, 996)]
+
+# Or:
+sports.df$age[c(1, nrow(sports.df))]
+```
+
+- All measurements made on the third subject.
+    
+```{r}
+sports.df[3, ]
+```
+
+- All of the subjects' ethnicities.
+
+```{r, eval = FALSE}
+sports.df$ethnicity
+
+# Or
+sports.df[, 10]
+
+# Or
+sports.df[, "ethnicity"]
+```
+
+- How many females are there in the study?
+
+```{r}
+with(sports.df, length(which(gender == "Female")))
+
+# Or
+with(sports.df, sum(gender == "Female"))
+
+```
+
+2. Calculate:
+
+- The average age of male subjects who were assigned to diet 1.
+
+```{r}
+with(sports.df, mean(age[gender == "Male"]))
+```
+
+- The median age of female subjects with no partner.
+
+```{r}
+with(sports.df, median(age[gender == "Female" & partner == "No"]))
+```
+
+# 4. `ifelse()` function 
+
+1. Use the `ifelse()` function to fixed the `income` variable from `5 000$` to `< 5 000$`
+
+```{r}
+sports.df$income = with(sports.df, ifelse(income == "5 000$", "< 5 000$", income))
+```
+
+2. Using the `table()` function, check the frequency of `partner` variable in `sports.df`.
+
+```{r} 
+table(sports.df$partner)
+```
+
+3. Use the `ifelse()` function to clean up the `partner` variable: 
+
+    + `NAP (married and living w legal spouse, Code 1 in MARITAL)` = "Yes"
+    + `NA,refused` = NA
+
+```{r}
+sports.df$partner = 
+  with(sports.df,
+       ifelse(partner == "NAP (married and living w legal spouse, Code 1 in MARITAL)", "Yes",
+              ifelse(partner == "NA,refused", NA, partner)))
+```
+
+
+4. Using nested `ifelse()` function, recode the `ethnicity` variable in `sports.df` dataset follow the table below.
+
+```{r, echo = FALSE}
+tibble(
+    `Old ethnicity` = names(table(sports.df$ethnicity)),
+   `New ethnicity` = c("Asian", "Euro", "Asian", "Maori", NA, "Other",
+                      "Pacific")) %>% 
+  kable( align = c("lr"))
+
+```
+
+```{r}
+sports.df$ethnicity =
+  with(sports.df, 
+       ifelse(ethnicity == "China,Cantonese,Hakka,Mandarin", "Asian", 
+              ifelse(ethnicity == "Europe,White/European", "Euro", 
+                     ifelse(ethnicity == "India,Hindi,Urdu,Gujarati,Tamil", "Asian", 
+                            ifelse(ethnicity == "Maori+New Zealand", "Maori", 
+                                   ifelse(ethnicity == "NA, dont know", NA,
+                                          ifelse(ethnicity == "Other,mixed origin", "Other",
+                                                 "Pacific")))))))
+```
+
+

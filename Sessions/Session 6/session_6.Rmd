@@ -1,0 +1,632 @@
+---
+title: "Session 6"
+subtitle: "Data visualization in **R** with `ggplot2`"
+author: |
+  | `r readLines('../../metadata.txt')[1]`
+  | Statistical Consulting Centre
+date: |
+  | `r readLines('../../metadata.txt')[2]`
+  |
+  | <img src="../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output:
+  revealjs::revealjs_presentation:
+    css: workshop.css
+    theme: serif
+    highlight: tango
+    overview: true
+    transition: zoom
+    background_transition: zoom
+    transitionSpeed: fast
+    self_contained: false
+    reveal_plugins: ["notes", "menu", "zoom"]
+    reveal_options:
+      menu:
+        openButton: false
+      notes:
+        defaultTiming: 120
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(tidy = FALSE, comment = "#R: ",
+                      fig.height=6, fig.width=6,
+                      warning=FALSE)
+
+options(width = 640)
+
+gw = getwd()
+setwd("../../")
+source("Source/session_3.R")
+setwd(gw)
+
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+## Session goals
+
+- Data visualization with the `ggplot2` package:
+
+    + Scatter plots
+    + Boxplots
+    + Histograms
+    + Bar plots
+
+## Designing graphs
+
+There are 2 important considerations when designing a graph:
+
+1. It should have something to say.
+
+    + Decide what information you want your graph to display.
+
+2. It should be easy to interpret.
+
+    + Simplicity is key!
+    + Sufficiently large fonts, all axes labelled, clear legends, etc.
+    
+# Data visualisation in **R**
+
+## The `ggplot2` package
+
+- **R** has several systems for making graphs, but `ggplot2` is one of the most
+elegant and versatile.
+
+Load the `ggplot2` package:
+
+```{r, eval = FALSE}
+library(ggplot2)
+```
+
+# Scatter plots
+
+## Creating the blank canvas
+
+We can initialize a new plot with the `ggplot()` function:
+
+```{r, out.height = 400, out.width = 400}
+ggplot()
+```
+
+## Setting up the coordinate system {data-transition="zoom-in none-out"}
+
+To define the coordinate system, we need to provide 3 pieces of information:
+
+1. Data set (`issp.df`)
+2. Which variable to plot on the x axis (`log10(age)`)
+3. Which variable to plot on the y axis (`log10(total)`)
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total)))
+```
+
+## Setting up the coordinate system {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total)))
+```
+
+## Add the points {data-transition="zoom-in none-out"}
+
+Now that we have initialized our canvas, we will tell **R** that we want to add (using `+`)
+points (`geom_point()`) at the x and y coordinates, which will create a scatterplot.
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total))) +
+  geom_point()
+```
+
+## Add the points {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total))) +
+  geom_point()
+```
+
+## Add a loess smooth {data-transition="zoom-in none-out"}
+
+We can easily add a smooth to a plot using `geom_smooth()`, which defaults to
+a loess smooth (`method = "loess"`) with a standard error region.
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total))) +
+  geom_point() +
+  geom_smooth()
+```
+
+## Add a loess smooth {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total))) +
+  geom_point() +
+  geom_smooth()
+```
+
+## Add a trend line {data-transition="zoom-in none-out"}
+
+Including a trend line in base **R** involved having to estimate parameters with `lm` and add them to the plot with `abline`.
+
+Well, `ggplot2` does this for you! Just add `method = "lm"` to `geom_smooth()`:
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total))) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Add a trend line {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), y = log10(total))) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Group using colour {data-transition="zoom-in none-out"}
+
+We can easily colour the points and smoothers to represent different groups by adding a `colour` argument:
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), 
+                     y = log10(total),
+                     color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Group using colour {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), 
+                     y = log10(total),
+                     color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Change the labels {data-transition="none-out zoom-in"}
+
+We can change the labels for the x and y axes, change the legend title, add a main title:
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), 
+                     y = log10(total),
+                     color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Log age",
+       y = "Log total score",
+       colour = "Gender",
+       title = "Log total score vs log age")
+```
+
+## Change the labels {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), 
+                     y = log10(total),
+                     color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Log age",
+       y = "Log total score",
+       colour = "Gender",
+       title = "Log total score vs log age")
+```
+
+## Modify components of the theme {data-transition="zoom-in none-out"}
+
+We can modify [many other components](http://ggplot2.tidyverse.org/reference/theme.html)
+of this plot by adding  `theme()` to our code. One of the things we can change is the text size:
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), 
+                     y = log10(total),
+                     color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Log age",
+       y = "Log total score",
+       colour = "Gender",
+       title = "Log total score vs log age") +
+  theme(text = element_text(size = 14))
+```
+
+## Modify components of the theme {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = log10(age), 
+                     y = log10(total),
+                     color = gender)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Log age",
+       y = "Log total score",
+       colour = "Gender",
+       title = "Log total score vs log age") +
+  theme(text = element_text(size = 14))
+```
+
+
+# Boxplots
+
+## Boxplots in `ggplot2` {data-transition="zoom-in none-out"}
+
+- We need to have a discrete variable on the x axis, and a
+continuous variable on the y axis.
+- The code is very similar, except we now use `geom_boxplot()`, instead of
+`geom_point()`:
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total)) +
+  geom_boxplot()
+```
+
+## Boxplots in `ggplot2` {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total)) +
+  geom_boxplot()
+```
+
+## Remove missing values {data-transition="zoom-in none-out"}
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total)) +
+  geom_boxplot()  
+```
+
+## Remove missing values {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total)) +
+  geom_boxplot()  
+```
+
+## Include meaningful labels {data-transition="zoom-in none-out"}
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total)) +
+  geom_boxplot() +
+  labs(title = "Total score for Female and Male",
+       x = "Gender",
+       y = "Total score")
+```
+
+## Include meaningful labels {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total)) +
+  geom_boxplot() +
+  labs(title = "Total score for Female and Male",
+       x = "Gender",
+       y = "Total score")
+```
+
+
+## Side-by-side boxplots {data-transition="zoom-in none-out"}
+
+We can use the `colour` (or `fill`) argument to create side-by-side boxplots!
+
+```{r, eval = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total, colour = age_group)) +
+  geom_boxplot() +
+  labs(title = "Total score for Female and Male",
+       x = "Gender",
+       y = "Total score",
+       colour = "Age group") +
+  theme(text = element_text(size = 14))
+```
+
+## Side-by-side boxplots {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(data = issp.df,
+       mapping = aes(x = gender, y = total, colour = age_group)) +
+  geom_boxplot() +
+  labs(title = "Total score for Female and Male",
+       x = "Gender",
+       y = "Total score",
+       colour = "Age group") +
+  theme(text = element_text(size = 14))
+```
+
+# Histograms
+
+## Histogram {data-transition="zoom-in none-out"}
+
+- A histogram (`geom_histogram()`) only needs an `x` aesthetic.
+- You can change the binwidth with the `binwidth` argument.
+
+```{r, eval = FALSE}
+ggplot(issp.df, aes(x = age)) +
+  geom_histogram(binwidth = 5) +
+  labs(x = "Age") +
+  theme(text = element_text(size = 14))
+```
+
+## Histogram {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df, aes(x = age)) +
+  geom_histogram(binwidth = 5) +
+  labs(x = "Age") +
+  theme(text = element_text(size = 14))
+```
+
+## Black and white theme {data-transition="zoom-in none-out"}
+
+If there is no colour in your plot, it is recommended to use a black and white theme. Remember:
+
++ Simplicity is key.
++ Don't add anything that doesn't need to be there.
+
+```{r, eval = FALSE}
+ggplot(issp.df, aes(x = age)) +
+  geom_histogram(binwidth = 5) +
+  labs(x = "Age") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
+## Black and white theme {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df, aes(x = age)) +
+  geom_histogram(binwidth = 5) +
+  labs(x = "Age") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
+# Bar plots
+
+## Bar plot for 1 variable {data-transition="zoom-in none-out"}
+
+We don't need to calculate the frequency table with `table()`, we just need to add `geom_bar()`:
+
+```{r, eval = FALSE}
+ggplot(issp.df,
+       aes(x = age_group)) +
+  geom_bar()
+```
+
+## Bar plot for 1 variable {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df,
+       aes(x = age_group)) +
+  geom_bar()
+```
+
+## Bar plot with extra arguments {data-transition="zoom-in none-out"}
+
+```{r, eval = FALSE}
+ggplot(issp.df,
+       aes(x = age_group)) +
+  geom_bar() + 
+  labs(x = "Age group",
+       y = "Frequency") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
+## Bar plot with extra arguments {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df ,
+       aes(x = age_group)) +
+  geom_bar() + 
+  labs(x = "Age group",
+       y = "Frequency") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
+## Add percentages on the y axis {data-transition="zoom-in none-out"}
+
+To include the percentages on the y-axis, we need to add a few more arguments:
+
+```{r, eval = FALSE}
+ggplot(issp.df ,
+       aes(x = age_group, y = ..prop.., group = 1)) +
+  geom_bar() + 
+  labs(x = "Age group",
+       y = "Proportion") +
+  theme_bw() +
+  theme(text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent)
+```
+
+## Add percentages on the y axis {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df ,
+       aes(x = age_group, y = ..prop.., group = 1)) +
+  geom_bar() + 
+  labs(x = "Age group",
+       y = "Proportion") +
+  theme_bw() +
+  theme(text = element_text(size = 14)) +
+  scale_y_continuous(labels = scales::percent)
+```
+
+## Bar plot for 2 variables {data-transition="zoom-in none-out"}
+
+When we add an additional variable, we simply need to specify the variable that will determine the fill of the boxes:
+
+```{r, eval = FALSE}
+ggplot(issp.df ,
+               aes(x = age_group, fill = ethnicity)) +
+  geom_bar()
+```
+
+## Bar plot for 2 variables {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df,
+               aes(x = age_group, fill = ethnicity)) +
+  geom_bar()
+```
+
+## Side-by-side bar plot {data-transition="zoom-in none-out"}
+
+To produce a side-by-side bar plot, simply add `position = "dodge"`:
+
+```{r, eval = FALSE}
+ggplot(issp.df, aes(x = age_group, fill = ethnicity)) +
+  geom_bar(position = "dodge")
+```
+
+## Side-by-side bar plot {data-transition="none-in none-out"}
+
+```{r, echo = FALSE}
+ggplot(issp.df ,
+               aes(x = age_group, fill = ethnicity)) +
+  geom_bar(position = "dodge")
+```
+
+
+## Side-by-side bar plot {data-transition="none-in zoom-out"}
+
+To produce a side-by-side bar plot, with the *missing* counts:
+```{r, echo = FALSE, warning=FALSE}
+issp.df %>% 
+  count(age_group, ethnicity) %>%
+  complete(age_group, ethnicity)  %>% 
+  ggplot(aes(x = age_group, y= n, fill = ethnicity)) +
+  geom_col(position = "dodge")    
+```
+
+
+## ggplot2 with dplyr  {data-transition="zoom-in none-out"}
+
+
+```{r}
+issp.df %>% 
+   count(age_group, ethnicity)
+```
+
+- `count()` adds a column `n` to a table based on the number of items within each existing group/s.
+
+
+## ggplot2 with dplyr  {data-transition="none-in none-out"}
+
+
+```{r}
+issp.df %>% 
+  count(age_group, ethnicity) %>%
+  complete(age_group, ethnicity) 
+```
+- `count()` adds a column `n` to a table based on the number of items within each existing group/s.
+- `complete()` completes missing combinations of data.
+
+
+##  ggplot2 with dplyr {data-transition="none-in none-out"}
+
+To produce a side-by-side bar plot, with the *missing* counts:
+
+```{r, eval = FALSE}
+issp.df %>% 
+  count(age_group, ethnicity) %>%
+  complete(age_group, ethnicity)  %>% 
+  ggplot(aes(x = age_group, y= n, fill = ethnicity)) +
+  geom_col(position = "dodge")  
+```
+- `count()` adds a column `n` to a table based on the number of items within each existing group/s.
+- `complete()` completes missing combinations of data.
+- `%>%` pipes the resulting frequency table to the `ggplot()`. 
+- To plot with the frequency table, use `geom_col()`, instead of `geom_bar()`.
+
+
+## ggplot2 with dplyr {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+issp.df %>% 
+   count(age_group, ethnicity) %>%
+  complete(age_group, ethnicity)  %>% 
+  ggplot(aes(x = age_group, y= n, fill = ethnicity)) +
+  geom_col(position = "dodge")
+```
+
+
+
+
+## Transparency {data-transition="zoom-in none-out"}
+
+Transparency is controlled with the `alpha` argument:
+
++ 0 = Invisible
++ 1 = Opaque
+
+```{r, eval = FALSE}
+issp.df %>% 
+  count(age_group, ethnicity) %>%
+  complete(age_group, ethnicity)  %>% 
+  ggplot(aes(x = age_group, y= n, fill = ethnicity)) +
+  geom_col(position = "dodge", alpha = .7) +
+  labs(title = "Ethnicity comparison",
+       x = "Age group",
+       y = "Frequency") +
+  theme(text = element_text(size = 14)) 
+```
+
+## Transparency {data-transition="none-in zoom-out"}
+
+```{r, echo = FALSE}
+issp.df %>% 
+  count(age_group, ethnicity) %>%
+  complete(age_group, ethnicity)  %>% 
+  ggplot(aes(x = age_group, y= n, fill = ethnicity)) +
+  geom_col(position = "dodge", alpha = .7) +
+  labs(title = "Ethnicity comparison",
+       x = "Age group",
+       y = "Frequency") +
+  theme(text = element_text(size = 14)) 
+```
+
+## Summary
+
+```{r, echo = FALSE}
+data.frame(type = c("**Scatterplot**", "**Barplot**",
+                    "**Histogram**", "**Boxplot**"),
+           fun = c("`geom_point()`", "`geom_bar()/geom_col()`",
+                   "`geom_histogram()`", "`geom_boxplot()`")) %>%
+  kable(format = "html",
+        col.names = c("Plot type", "Function")) %>% 
+  kable_styling(full_width = FALSE)
+```
+
+The following can be added or changed in any plot:
+
+- Titles and labels
+- Themes (for example the text size)
+- Transparency
+- Colours (used for grouping data)
+
+# {data-background-image="../Logos/questions.png" data-background-size="50%" data-background-position="bottom"}
+
+# Exercise 6 {data-background-image="../Logos/exercise.jpg" data-background-size="82%" data-background-position="bottom"}
+
+

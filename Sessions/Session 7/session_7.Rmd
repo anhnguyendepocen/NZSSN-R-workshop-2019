@@ -1,0 +1,303 @@
+---
+title: "Session 7"
+subtitle: "Data analysis in **R**"
+author: |
+  | `r readLines('../../metadata.txt')[1]`
+  | Statistical Consulting Centre
+date: |
+  | `r readLines('../../metadata.txt')[2]`
+  |
+  | <img src="../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output:
+  revealjs::revealjs_presentation:
+    css: workshop.css
+    theme: serif
+    highlight: tango
+    overview: true
+    transition: zoom
+    background_transition: zoom
+    transitionSpeed: fast
+    self_contained: false
+    reveal_plugins: ["notes", "menu", "zoom"]
+    reveal_options:
+      menu:
+        openButton: false
+      notes:
+        defaultTiming: 120
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(tidy = FALSE, comment = "#R: ",
+                      fig.height=6, fig.width=6)
+
+options(width = 640)
+
+gw = getwd()
+setwd("../../")
+source("Source/session_3.R")
+setwd(gw)
+
+library(knitr)
+library(kableExtra)
+```
+
+## Session goals
+
+- Data analysis in **R**:
+
+    + 2-sample (independent) t-test
+    + paired t-test
+    + 1-way ANOVA
+    + 2-way ANOVA
+    + Chi-square test of independence
+    + Fisher's exact test
+
+# Student's t-test
+
+## Student's (2-sample) t-test in **R**
+
+- Used for testing for a difference in population means between 2 independent groups.
+
+Generalized **R** code:
+
+```
+t.test(y ~ x, data = dataset)
+```
+
+- `y`: the continuous response variable.
+- `x`: grouping variable with 2 levels.
+- `dataset`: name of the dataframe containing the variables.
+
+> Does total score differ between genders?
+
+## Visualize the data {data-transition="zoom-in none-out"}
+
+- Before we run any formal tests, we need to plot the data!
+- Boxplots are useful before running a t-test, as they:
+    
+    + flag any outliers.
+    + allow us to check distributions.
+    + indicate what we should expect.
+
+```{r, eval = FALSE}
+boxplot(total ~ gender, data = issp.df)
+```
+
+Note that no effort is made to 'clean' this plot up.
+
+## Visualize the data {data-transition="zoom-out none-in"}
+
+```{r, echo = FALSE}
+boxplot(total ~ gender, data = issp.df)
+```
+
+## Results
+
+```{r}
+t.test(total ~ gender, data = issp.df)
+```
+
+- The estimated difference in total score between females and males is 12.20 - 10.88 = `r 12.20 - 10.88`.
+
+- We have strong evidence to suggest that the mean total score are statistically signifcantly different between genders (p-value = 0.0033).
+
+# Analysis of Variance (ANOVA)
+
+## One-way ANOVA in **R** {data-transition="zoom-in none-out"}
+
+- Used for testing for a difference in population means between any of the 3 or more independent groups.
+
+- Generalises the Student's t-test to more than 2 groups.
+
+Generalized **R** code:
+
+```
+aov(y ~ x, data = dataset)
+```
+
+> Are there any differences in average total score with three different age groups?
+
+## Visualize the data {data-transition="zoom-in none-out"}
+
+```{r, echo = TRUE, fig.height = 5, fig.width = 5}
+boxplot(total ~ age_group, data = issp.df)
+```
+
+
+## Results
+
+```{r}
+Total_age_aov = aov(total ~ age_group, data = issp.df)
+summary(Total_age_aov)
+```
+
+
+We have no evidence (p-value = 0.103)  that at least one age group's mean total score is different to that of the other age groups.
+
+## Group means
+
+- We can get the group means in **R** with the `model.tables` function:
+
+```{r}
+model.tables(Total_age_aov, "means")
+```
+
+## Post-hoc multiple comparisons
+
+```{r}
+post_hocs = TukeyHSD(Total_age_aov)
+post_hocs
+```
+
+- 'diff' is the estimated difference between the group means.
+- 'lwr' and 'upr' are the 95% confidence interval limits.
+- 'p adj' is the adjusted p-value for multiple comparisons using Tukey's 'Honest Significant Difference' (HSD) method.
+
+## Plot the intervals
+
+```{r, fig.height = 5, fig.width = 5}
+plot(post_hocs)
+```
+
+# Two-way ANOVA in **R**
+
+## Two-way ANOVA in **R** {data-transition="zoom-in none-out"}
+
+- Generalizes the one-way ANOVA to include 2 grouping variables instead of 1.
+- Remember we can have interactions between the two variables.
+
+```
+aov(y ~ x1 * x2, data = dataset)
+```
+
+> Are there any differences in average total score between three age groups and between genders?
+
+We've just added in the 'gender' variable from our 1-way ANOVA.
+
+## Visualize the data: Two-way Interaction Plot {data-transition="zoom-in none-out"}
+
+```{r, echo = TRUE, eval = FALSE}
+
+with(issp.df, interaction.plot(age_group, gender, total))
+
+```
+
+## Visualize the data: Two-way Interaction Plot {data-transition="zoom-out none-in"}
+
+```{r, echo = FALSE}
+with(issp.df, interaction.plot(age_group, gender, total))
+
+```
+
+## Do we have an interaction?
+
+```{r}
+total_2aov = aov(total ~ gender * age_group, data = issp.df)
+
+summary(total_2aov)
+```
+
+- We have evidence (p-value = 0.02295) to suggest that there is an interaction (unsurprisingly) between the genders and the age groups. i.e. the average difference in total score between genders does depend on the age groups, and vice versa.
+
+## Group means
+
+```{r}
+model.tables(total_2aov, "means")
+```
+
+But which ones are statistically significantly different?
+
+## Post-hoc multiple comparisons
+
+```{r, eval = FALSE}
+post_hocs = TukeyHSD(total_2aov)
+post_hocs
+```
+
+Significant differences, ordered by decreasing magnitude:
+
+```{r, echo = FALSE}
+post_hocs = TukeyHSD(total_2aov)
+
+post_hocs[[3]] %>% 
+  kable(format = "html", digits = 2) %>% 
+  kable_styling(full_width = FALSE, bootstrap_options = "condensed")
+```
+
+
+# Tests of independence
+
+## Frequency table
+
+> Do opinions on preparing children for life depend on age group?
+
+In general, we want to know if the frequencies along the rows are independent of
+the columns, and vice-versa.
+
+- We have two categorical variables.
+- We want to test for independence between the rows and columns.
+- We start with the 2-way frequency table:
+
+```{r}
+q5_table = with(issp.df, table(q5, age_group))
+q5_table
+```
+
+## Pearson's Chi-squared test
+
+We can use the `chisq.test` function in **R** to perform a Pearson's Chi-square test for independence:
+
+```{r}
+chisq.test(q5_table)
+```
+
+- There is no evidence (p-value = 0.5321) that Q5 and age group are not independent of one another.
+- Opinions on preparing children for life depend on the age group to which respondents belong.
+
+## Assumptions {data-transition="zoom-in none-out"}
+
+- Pearson's Chi-squared tests have certain assumptions.
+- Levels of the variables are mutually exclusive.
+- The expected value should be 5 or more in at least 80% of the cells.
+- No cell should have an expected value less than 1.
+
+A good rule of thumb is that the sample size should equal at least the number of cells multiplied by 5.
+
+<small>McHugh, M. L. (2013). The Chi-square test of independence. *Biochemia Medica*, 23(2), 143–149. http://doi.org/10.11613/BM.2013.018</small>
+
+## Assumptions {data-transition="zoom-out none-in"}
+
+- Notice the warning from `chisq.test()` if these assumptions are not met.
+
+```{r, echo = FALSE}
+chisq.test(c(0, 1))
+```
+
+If the assumptions aren't met for a Pearson's Chi-square test, one alternative is to use a Fisher's exact test.
+
+## Fisher's exact test in **R**
+
+```{r}
+fisher.test(q5_table)
+```
+
+
+## Summary
+
+```{r, echo = FALSE}
+data.frame(model = c("**2-sample t-test**", "**Paired t-test**", 
+                     "**One-way ANOVA**", "**Two-way ANOVA (additive)**", "**Two-way ANOVA (interaction)**", 
+                     "**Pearson's Chi-square test**",
+                    "**Fisher's exact test**"),
+           fun = c("`t.test(x ~ y, data = dataset.df)`",
+                   "`t.test(dataset.df$diff_y)`", "`aov(y ~ x, data = dataset.df)`", 
+                   "`aov(y ~ x1 + x2, data = dataset.df)`", 
+                   "`aov(y ~ x1 * x2, data = dataset.df)`", 
+                   "`chisq.test(a_table)`", "`fisher.test(a_table)`")) %>%
+  kable(format = "html",
+        col.names = c("Model", "Generalized code"))
+```
+
+# {data-background-image="../Logos/questions.png" data-background-size="50%" data-background-position="bottom"}
+
+# Exercise 7 {data-background-image="../Logos/exercise.jpg" data-background-size="82%" data-background-position="bottom"}

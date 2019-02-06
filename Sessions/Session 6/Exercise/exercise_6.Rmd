@@ -1,0 +1,127 @@
+---
+title: "Exercise 6"
+subtitle: "Graphics with `ggplot2`"
+author: "Statistical Consulting Centre"
+date: |
+  | `r readLines('../../../metadata.txt')[2]`
+  |
+  | <img src="../../../Logos/uoa_stats_wide.png" height="70%" width="70%">
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, comment = "#R: ")
+
+gw = getwd()
+setwd("../../../")
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+mean.df = read.csv("Data/sports questionnaire.csv")
+source("Source/ex_3.R")
+setwd(gw)
+library(dplyr)
+library(ggplot2)
+```
+
+For these exercises we will be using the `sports.df` data set again. Run the following lines to ensure you're up to date from the previous exercises:
+
+```{r, echo = TRUE, eval = FALSE}
+sports.df = read.csv("Data/sports demographic.csv", stringsAsFactors = FALSE)
+mean.df = read.csv("Data/sports questionnaire.csv")
+source("Source/ex_3.R")
+library(ggplot2)
+```
+
+Remember to always create informative axis labels and ensure your text is large enough to easily read.
+
+Note, if there is no colour in a plot, the black and white theme (`theme_bw()`) is generally recommended.
+
+# 1. Boxplot
+
+Recreate the figure below. Note, you can suppress the x-axis title by adding
+`axis.title.x = element_blank()` to the `theme` function.
+
+```{r}
+ggplot(sports.df, aes(age_group, average)) +
+  geom_boxplot() +
+  labs(title = "Average scores across age groups",
+       y = "Average score") +
+  theme_bw() +
+  theme(text = element_text(size = 14),
+        axis.title.x = element_blank())
+```
+
+
+\newpage
+
+# 2. Scatterplot
+
+1 Create a scatter plot using `ggplot()` to find out if there is any relationship between the age of the subject and how much their Average score changed. Make sure the plot includes:
+
+- Meaningful labels and a title.
+- Black and white theme.
+- text size of 14 point.
+- Trend line with a standard error region.
+
+```{r}
+ggplot(sports.df, aes(age, average)) +
+  geom_point() +
+  labs(title = "Average scores vs age",
+       x = "Age",
+       y = "Average scores") +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
+# 3. Barplot
+
+1. Create a bar plot using `ggplot()` showing the percentages of age group of subjects.
+
+```{r}
+ggplot(sports.df, 
+       aes(age_group, y = ..prop.., group = 1)) +
+  geom_bar() +
+  labs(x = "Baseline BMI group",
+       y = "Percent") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
+2. Reproduce the following side-by-side bar plot. Here are some hints:
+
+- The bars are 70% opaque.
+- Use `fill` instead of `colour` to define the grouping variable.
+- The text size is 14 point.
+- There is no x-axis title.
+
+```{r, eval = TRUE}
+ggplot(sports.df, 
+       aes(age_group, fill = gender)) +
+  geom_bar(position="dodge", alpha = .7) +
+  labs(title = "BMI groups",
+       y = "Frequency",
+       fill = "Gender") +
+  theme(text = element_text(size = 14),
+        axis.title.x = element_blank())
+```
+
+# 4. Histogram
+
+1. Create a histogram showing the distribution of age of subjects. Use the following parameters:
+
+- Binwidth of 1.
+- Alpha of 0.7 (70% opacity).
+- Meaningful labels.
+- Black and white theme.
+- Text size of 14 point.
+
+```{r}
+ggplot(sports.df, aes(x = age)) +
+  geom_histogram(binwidth = 10, alpha = .7) +
+  labs(x = "Age",
+       y = "Frequency") +
+  theme_bw() +
+  theme(text = element_text(size = 14))
+```
+
